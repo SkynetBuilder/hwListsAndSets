@@ -5,14 +5,15 @@ import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeAlreadyAddedExc
 import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeNotFoundException;
 import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeStorageIsFullException;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final Map<String, Employee> employees;
 
-    public EmployeeServiceImpl(Map<String, Employee> employees) {
-        this.employees = employees;
+    public EmployeeServiceImpl() {
+        this.employees = new HashMap<>();
     }
 
     private final int MAX_EMPLOYEES_AMOUNT = 10;
