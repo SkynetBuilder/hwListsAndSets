@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/departments")
-public class DepartmentController{
+public class DepartmentController {
     private final DepartmentService departmentService;
 
     public DepartmentController(DepartmentService departmentService, EmployeeService employeeService) {
@@ -19,22 +19,21 @@ public class DepartmentController{
     }
 
     @GetMapping("/max-salary")
-    public Employee maxSalaryOfDepartment(@RequestParam("departmentId") int departmentId) {
+    public Employee maxSalaryOfDepartment(@RequestParam("departmentId") Integer departmentId) {
         return departmentService.maxSalaryOfDepartment(departmentId);
     }
 
     @GetMapping("/min-salary")
-    public Employee minSalaryOfDepartment(@RequestParam("departmentId") int departmentId) {
+    public Employee minSalaryOfDepartment(@RequestParam("departmentId") Integer departmentId) {
         return departmentService.minSalaryOfDepartment(departmentId);
     }
 
-    @GetMapping("/all")
-    public List<Employee> allEmployeesOfDepartment(@RequestParam("departmentId") int departmentId) {
-        return departmentService.allEmployeesOfDepartment(departmentId);
-    }
-
-    @GetMapping("/all")
-    public List<Employee> allEmployeesSorted() {
-        return departmentService.allEmployeesSorted();
+    @GetMapping("all")
+    public List<Employee> allEmployeesOfDepartment(@RequestParam(required = false, value = "departmentId") Integer departmentId) {
+        if (departmentId != null) {
+            return departmentService.allEmployeesOfDepartment(departmentId);
+        } else {
+            return departmentService.allEmployeesSorted();
+        }
     }
 }
