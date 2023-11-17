@@ -3,7 +3,7 @@ package pro.sky.java.course2.adaptedcoursework.employees;
 import java.util.Map;
 
 public interface EmployeeService {
-    Employee addEmployee(String firstName, String lastName);
+    Employee addEmployee(String firstName, String lastName, int salary, int department);
 
     Employee removeEmployee(String firstName, String lastName);
 

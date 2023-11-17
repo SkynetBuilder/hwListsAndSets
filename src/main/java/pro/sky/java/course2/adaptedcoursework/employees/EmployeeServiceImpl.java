@@ -5,7 +5,9 @@ import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeAlreadyAddedExc
 import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeNotFoundException;
 import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeStorageIsFullException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,19 +22,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Map<String, Employee> getEmployees() {
-        return employees;
+        return Map.copyOf(employees);
     }
 
     @Override
-    public Employee addEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
+    public Employee addEmployee(String firstName, String lastName, int salary, int department) {
+        Employee employee = new Employee(firstName, lastName, salary, department);
         if (employees.size() > MAX_EMPLOYEES_AMOUNT) {
             throw new EmployeeStorageIsFullException(employee);
         }
         if (employees.containsKey(employee.toString())) {
             throw new EmployeeAlreadyAddedException(employee);
         }
-        employees.put(employee.toString(),employee);
+        employees.put(employee.toString(), employee);
         return employee;
     }
 
@@ -42,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (!employees.containsKey(employee.toString())) {
             throw new EmployeeNotFoundException(employee);
         }
-        employees.remove(employee.toString(),employee);
+        employees.remove(employee.toString(), employee);
         return employee;
     }
 
