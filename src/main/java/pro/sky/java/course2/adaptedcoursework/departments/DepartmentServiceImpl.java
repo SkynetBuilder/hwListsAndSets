@@ -5,6 +5,7 @@ import pro.sky.java.course2.adaptedcoursework.employees.Employee;
 import pro.sky.java.course2.adaptedcoursework.employees.EmployeeService;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +33,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public Integer salarySum(Integer department) {
+        return employeeService.getEmployees().values().stream()
+                .filter(employee -> employee.getDepartment() == department)
+                .map(Employee::getSalary)
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+
+    @Override
     public List<Employee> allEmployeesOfDepartment(Integer department) {
         return employeeService.getEmployees().values()
                 .stream()
@@ -40,10 +50,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<Employee> allEmployeesSorted() {
+    public Map<Integer,List<Employee>> allEmployees() {
         return employeeService.getEmployees().values()
                 .stream()
-                .sorted(Comparator.comparingInt(Employee::getDepartment))
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 }
