@@ -1,6 +1,7 @@
 package pro.sky.java.course2.adaptedcoursework.employees;
 
 import org.springframework.stereotype.Service;
+import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeAlreadyAddedException;
 import pro.sky.java.course2.adaptedcoursework.exceptions.InvalidInputException;
 import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeNotFoundException;
 import pro.sky.java.course2.adaptedcoursework.exceptions.EmployeeStorageIsFullException;
@@ -29,11 +30,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee addEmployee(String firstName, String lastName, int salary, int department) {
         validateInput(firstName, lastName);
         Employee employee = new Employee(firstName, lastName, salary, department);
-        if (employees.size() > MAX_EMPLOYEES_AMOUNT) {
+        if (employees.size() >= MAX_EMPLOYEES_AMOUNT) {
             throw new EmployeeStorageIsFullException(employee);
         }
         if (employees.containsKey(employee.toString())) {
-            throw new InvalidInputException();
+            throw new EmployeeAlreadyAddedException(employee);
         }
         employees.put(employee.toString(), employee);
         return employee;
@@ -64,7 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    private void validateInput(String firstName, String lastName) {
+    public void validateInput(String firstName, String lastName) {
         if (!(StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName))) {
             throw new InvalidInputException();
         }
